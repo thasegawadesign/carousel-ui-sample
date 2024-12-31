@@ -53,12 +53,12 @@ export default function Home() {
         <div className={clsx("relative overflow-hidden")}>
           <div className={clsx("flex w-[10000px] gap-8")}>
             {images.map((image, i) => (
-              <>
+              <div key={i}>
                 <Link
                   href={cards[i].link}
                   className={clsx("flex flex-col-reverse")}
                 >
-                  <div
+                  <span
                     className={clsx(
                       "max-w-[480px] rounded-b-xl bg-white px-12 py-10",
                     )}
@@ -70,16 +70,15 @@ export default function Home() {
                       サンプルテキストが入ります。サンプルテキストが入ります。サンプルテキストが入ります。
                       サンプルテキストが入ります。サンプルテキストが入ります。サンプルテキストが入ります。
                     </p>
-                    <Link
-                      href={tags[i].link}
+                    <p
                       className={clsx(
-                        "rounded-full border border-[#2B63DC] px-5 py-2 text-[#2B63DC]",
+                        "inline-block rounded-full border border-[#2B63DC] px-5 py-2 text-[#2B63DC]",
                       )}
                     >
                       # {tags[i].name}
-                    </Link>
-                  </div>
-                  <div className={clsx("max-w-[480px]")}>
+                    </p>
+                  </span>
+                  <span className={clsx("max-w-[480px]")}>
                     <Image
                       src={image.src}
                       width={image.width ?? 480}
@@ -87,9 +86,9 @@ export default function Home() {
                       alt=""
                       className={clsx("rounded-t-xl")}
                     />
-                  </div>
+                  </span>
                 </Link>
-              </>
+              </div>
             ))}
           </div>
           <button
