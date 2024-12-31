@@ -11,41 +11,26 @@ type ImageList = {
   src: string;
   width?: number;
   height?: number;
-}[];
-
-type TagList = {
-  name: string;
-  link: string;
-}[];
-
-type CardList = {
-  link: string;
+  cardLink: string;
+  tagName: string;
 }[];
 
 export default function Home() {
   const images: ImageList = [
-    { src: "/AdobeStock_360791874.webp" },
-    { src: "/AdobeStock_354201941.webp" },
-    { src: "/AdobeStock_337669179.webp" },
-    { src: "/AdobeStock_402408502.webp" },
-    { src: "/AdobeStock_441304961.webp" },
-    { src: "/AdobeStock_461427626.webp" },
-  ];
-  const tags: TagList = [
-    { name: "キャリア", link: "#" },
-    { name: "働き方", link: "#" },
-    { name: "クラウド", link: "#" },
-    { name: "リモートワーク", link: "#" },
-    { name: "デザイン", link: "#" },
-    { name: "エンジニアリング", link: "#" },
-  ];
-  const cards: CardList = [
-    { link: "#" },
-    { link: "#" },
-    { link: "#" },
-    { link: "#" },
-    { link: "#" },
-    { link: "#" },
+    { src: "/AdobeStock_360791874.webp", cardLink: "#", tagName: "キャリア" },
+    { src: "/AdobeStock_354201941.webp", cardLink: "#", tagName: "働き方" },
+    { src: "/AdobeStock_337669179.webp", cardLink: "#", tagName: "クラウド" },
+    {
+      src: "/AdobeStock_402408502.webp",
+      cardLink: "#",
+      tagName: "リモートワーク",
+    },
+    { src: "/AdobeStock_441304961.webp", cardLink: "#", tagName: "デザイン" },
+    {
+      src: "/AdobeStock_461427626.webp",
+      cardLink: "#",
+      tagName: "エンジニアリング",
+    },
   ];
 
   const [offsetX, setOffsetX] = useState(0);
@@ -73,7 +58,7 @@ export default function Home() {
             {images.map((image, i) => (
               <div key={i}>
                 <Link
-                  href={cards[i].link}
+                  href={image.cardLink}
                   className={clsx("flex flex-col-reverse")}
                 >
                   <span
@@ -93,7 +78,7 @@ export default function Home() {
                         "inline-block rounded-full border border-[#2B63DC] px-5 py-2 text-[#2B63DC]",
                       )}
                     >
-                      # {tags[i].name}
+                      # {image.tagName}
                     </p>
                   </span>
                   <span className={clsx("max-w-[480px]")}>
