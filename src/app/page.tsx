@@ -13,10 +13,10 @@ type ImageList = {
   height?: number;
   cardLink: string;
   tagName: string;
-}[];
+};
 
 export default function Home() {
-  const images: ImageList = [
+  const images: ImageList[] = [
     { src: "/AdobeStock_360791874.webp", cardLink: "#", tagName: "キャリア" },
     { src: "/AdobeStock_354201941.webp", cardLink: "#", tagName: "働き方" },
     { src: "/AdobeStock_337669179.webp", cardLink: "#", tagName: "クラウド" },
@@ -37,6 +37,23 @@ export default function Home() {
   const onlyWidth = useWindowWidth();
   const imageSizeX = 480;
   const gapX = 32;
+
+  const moveLastToFirst = (arr: ImageList[]) => {
+    if (arr.length === 0) return arr;
+    const lastElement = arr.pop();
+    if (lastElement !== undefined) {
+      arr.unshift(lastElement);
+    }
+    return arr;
+  };
+  const moveFirstToLast = (arr: ImageList[]) => {
+    if (arr.length === 0) return arr;
+    const firstElement = arr.shift();
+    if (firstElement !== undefined) {
+      arr.push(firstElement);
+    }
+    return arr;
+  };
 
   useEffect(() => {
     setOffsetX((10000 - onlyWidth) / 2 + imageSizeX / 2 + gapX / 2);
