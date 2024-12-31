@@ -38,23 +38,6 @@ export default function Home() {
   const imageSizeX = 480;
   const gapX = 32;
 
-  const moveLastToFirst = (arr: ImageList[]) => {
-    if (arr.length === 0) return arr;
-    const lastElement = arr.pop();
-    if (lastElement !== undefined) {
-      arr.unshift(lastElement);
-    }
-    return arr;
-  };
-  const moveFirstToLast = (arr: ImageList[]) => {
-    if (arr.length === 0) return arr;
-    const firstElement = arr.shift();
-    if (firstElement !== undefined) {
-      arr.push(firstElement);
-    }
-    return arr;
-  };
-
   useEffect(() => {
     setOffsetX((10000 - onlyWidth) / 2 + imageSizeX / 2 + gapX / 2);
   }, [onlyWidth]);
