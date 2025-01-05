@@ -153,7 +153,8 @@ export default function Home() {
           {images.map((_, i) => (
             <button
               key={i}
-              className={clsx("h-2.5 w-2.5 rounded-full bg-white", {
+              className={clsx("h-2.5 w-2.5 rounded-full", {
+                "bg-white": current !== i,
                 "bg-orange-400": current === i,
               })}
               onClick={() => handleDotClick(i)}
