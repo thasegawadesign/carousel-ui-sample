@@ -33,14 +33,47 @@ export default function Home() {
     },
   ];
 
-  const [offsetX, setOffsetX] = useState(0);
-  const onlyWidth = useWindowWidth();
   const imageSizeX = 480;
+  const imagesLength = images.length;
+  const [centerX, setCenterX] = useState(0);
+  const [offsetX, setOffsetX] = useState(0);
+  const [current, setCurrent] = useState(0);
+  const onlyWidth = useWindowWidth();
   const gapX = 32;
 
+  const handleClickPrev = () => {
+    if (current > 0) {
+      setCurrent((prev) => prev - 1);
+    }
+    if (current === 0) {
+      setCurrent(imagesLength - 1);
+    }
+  };
+
+  const handleClickNext = () => {
+    if (current < imagesLength) {
+      setCurrent((prev) => prev + 1);
+    }
+    if (current === imagesLength - 1) {
+      setCurrent(0);
+    }
+  };
+
+  const handleDotClick = (i: number) => {
+    setCurrent(i);
+  };
+
   useEffect(() => {
-    setOffsetX((10000 - onlyWidth) / 2 + imageSizeX / 2 + gapX / 2);
-  }, [onlyWidth]);
+    setOffsetX(-(imageSizeX * current + gapX * current));
+  }, [current]);
+
+  useEffect(() => {
+    setCenterX(
+      (10000 - onlyWidth) / 2 -
+        imageSizeX * (imagesLength / 2) +
+        gapX * (imagesLength - 1),
+    );
+  }, [imagesLength, onlyWidth]);
 
   return (
     <>
@@ -50,54 +83,60 @@ export default function Home() {
         </h1>
         <div className={clsx("relative overflow-x-hidden")}>
           <div
-            className={clsx(
-              `flex w-[10000px] justify-center gap-8 transition-transform`,
-            )}
-            style={{ transform: `translateX(-${offsetX}px)` }}
+            className={clsx("transition-transform")}
+            style={{ transform: `translateX(${offsetX}px)` }}
           >
-            {images.map((image, i) => (
-              <div key={i}>
-                <Link
-                  href={image.cardLink}
-                  className={clsx("flex flex-col-reverse")}
-                >
-                  <span
-                    className={clsx(
-                      "max-w-[480px] rounded-b-xl bg-white px-12 py-10",
-                    )}
+            <div
+              className={clsx(
+                `flex w-[10000px] justify-center gap-8 transition-transform`,
+              )}
+              style={{ transform: `translateX(-${centerX}px)` }}
+            >
+              {images.map((image, i) => (
+                <div key={i}>
+                  <Link
+                    href={image.cardLink}
+                    className={clsx("flex flex-col-reverse")}
                   >
-                    <h2 className={clsx("mb-6 text-2xl text-gray-900")}>
-                      サンプルサンプル株式会社
-                    </h2>
-                    <p className={clsx("mb-8 text-gray-900")}>
-                      サンプルテキストが入ります。サンプルテキストが入ります。サンプルテキストが入ります。
-                      サンプルテキストが入ります。サンプルテキストが入ります。サンプルテキストが入ります。
-                    </p>
-                    <p
+                    <span
                       className={clsx(
-                        "inline-block rounded-full border border-[#2B63DC] px-5 py-2 text-[#2B63DC]",
+                        "max-w-[480px] rounded-b-xl bg-white px-12 py-10",
                       )}
                     >
-                      # {image.tagName}
-                    </p>
-                  </span>
-                  <span className={clsx("max-w-[480px]")}>
-                    <Image
-                      src={image.src}
-                      width={image.width ?? 480}
-                      height={image.height ?? 300}
-                      alt=""
-                      className={clsx("rounded-t-xl")}
-                    />
-                  </span>
-                </Link>
-              </div>
-            ))}
+                      <h2 className={clsx("mb-6 text-2xl text-gray-900")}>
+                        サンプルサンプル株式会社
+                      </h2>
+                      <p className={clsx("mb-8 text-gray-900")}>
+                        サンプルテキストが入ります。サンプルテキストが入ります。サンプルテキストが入ります。
+                        サンプルテキストが入ります。サンプルテキストが入ります。サンプルテキストが入ります。
+                      </p>
+                      <p
+                        className={clsx(
+                          "inline-block rounded-full border border-[#2B63DC] px-5 py-2 text-[#2B63DC]",
+                        )}
+                      >
+                        # {image.tagName}
+                      </p>
+                    </span>
+                    <span className={clsx("max-w-[480px]")}>
+                      <Image
+                        src={image.src}
+                        width={image.width ?? 480}
+                        height={image.height ?? 300}
+                        alt=""
+                        className={clsx("rounded-t-xl")}
+                      />
+                    </span>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
           <button
             className={clsx(
               "absolute left-5 top-[calc(50%-40px)] w-20 rounded-full bg-gray-600",
             )}
+            onClick={handleClickPrev}
           >
             <ChevronLeftIcon className={clsx("p-5 text-white")} />
           </button>
@@ -105,6 +144,7 @@ export default function Home() {
             className={clsx(
               "absolute right-5 top-[calc(50%-40px)] w-20 rounded-full bg-gray-600",
             )}
+            onClick={handleClickNext}
           >
             <ChevronRightIcon className={clsx("p-5 text-white")} />
           </button>
@@ -113,7 +153,10 @@ export default function Home() {
           {images.map((_, i) => (
             <button
               key={i}
-              className={clsx("h-2.5 w-2.5 rounded-full bg-white")}
+              className={clsx("h-2.5 w-2.5 rounded-full bg-white", {
+                "bg-orange-400": current === i,
+              })}
+              onClick={() => handleDotClick(i)}
             ></button>
           ))}
         </div>
