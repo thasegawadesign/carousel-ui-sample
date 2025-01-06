@@ -86,7 +86,7 @@ export default function Home() {
       <main className={clsx("min-h-screen bg-primary")}>
         <h1
           className={clsx(
-            "px-[6vw] pb-20 pt-24 text-center text-3xl text-white",
+            "px-[6vw] pb-20 pt-24 text-center text-3xl text-white sm:text-4xl",
           )}
         >
           導入事例インタビュー
@@ -144,7 +144,7 @@ export default function Home() {
           </div>
           <button
             className={clsx(
-              "-translate-y-1/12 absolute left-2 top-1/2 w-16 rounded-full bg-gray-600 drop-shadow-md sm:left-5 sm:w-20",
+              "-translate-y-1/12 absolute left-2 top-1/2 z-50 w-16 rounded-full bg-gray-600 drop-shadow-md sm:left-5 sm:w-20 sm:-translate-y-1/2",
             )}
             onClick={handleClickPrev}
           >
@@ -152,12 +152,22 @@ export default function Home() {
           </button>
           <button
             className={clsx(
-              "-translate-y-1/12 absolute right-2 top-1/2 w-16 rounded-full bg-gray-600 drop-shadow-md sm:right-5 sm:w-20",
+              "-translate-y-1/12 absolute right-2 top-1/2 z-50 w-16 rounded-full bg-gray-600 drop-shadow-md sm:right-5 sm:w-20 sm:-translate-y-1/2",
             )}
             onClick={handleClickNext}
           >
             <ChevronRightIcon className={clsx("p-3 text-white sm:p-5")} />
           </button>
+          <div
+            className={clsx(
+              "absolute left-0 top-0 block h-full w-[5vw] bg-gradient-to-r from-primary to-transparent sm:w-[10vw] md:w-[20vw]",
+            )}
+          ></div>
+          <div
+            className={clsx(
+              "absolute right-0 top-0 block h-full w-[5vw] bg-gradient-to-l from-primary to-transparent sm:w-[10vw] md:w-[20vw]",
+            )}
+          ></div>
         </div>
         <div className={clsx("flex justify-center gap-3 pb-32 pt-10")}>
           {images.map((_, i) => (
