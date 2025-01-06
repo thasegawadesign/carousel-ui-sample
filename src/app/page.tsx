@@ -33,13 +33,13 @@ export default function Home() {
     },
   ];
 
-  const imageSizeX = 480;
+  const onlyWidth = useWindowWidth();
+  const imageSizeX = onlyWidth > 640 ? 480 : 320;
+  const gapX = 32;
   const imagesLength = images.length;
   const [centerX, setCenterX] = useState(0);
   const [offsetX, setOffsetX] = useState(0);
   const [current, setCurrent] = useState(0);
-  const onlyWidth = useWindowWidth();
-  const gapX = 32;
 
   const handleClickPrev = () => {
     if (current > 0) {
@@ -65,20 +65,30 @@ export default function Home() {
 
   useEffect(() => {
     setOffsetX(-(imageSizeX * current + gapX * current));
-  }, [current]);
+  }, [current, imageSizeX]);
 
   useEffect(() => {
-    setCenterX(
-      (10000 - onlyWidth) / 2 -
-        imageSizeX * (imagesLength / 2) +
-        gapX * (imagesLength - 1),
-    );
-  }, [imagesLength, onlyWidth]);
+    if (onlyWidth > 640) {
+      setCenterX(
+        (10000 - onlyWidth) / 2 -
+          imageSizeX * (imagesLength / 2) +
+          gapX * (imagesLength - 1),
+      );
+    } else {
+      setCenterX(
+        (10000 - onlyWidth) / 2 - imageSizeX * (imagesLength / 2) + gapX * 2.5,
+      );
+    }
+  }, [imageSizeX, imagesLength, onlyWidth]);
 
   return (
     <>
       <main className={clsx("min-h-screen bg-primary")}>
-        <h1 className={clsx("pb-20 pt-24 text-center text-3xl text-white")}>
+        <h1
+          className={clsx(
+            "px-[6vw] pb-20 pt-24 text-center text-3xl text-white",
+          )}
+        >
           導入事例インタビュー
         </h1>
         <div className={clsx("relative overflow-x-hidden")}>
@@ -100,7 +110,7 @@ export default function Home() {
                   >
                     <span
                       className={clsx(
-                        "max-w-[480px] rounded-b-xl bg-white px-12 py-10",
+                        "max-w-[320px] rounded-b-xl bg-white px-12 py-10 sm:max-w-[480px]",
                       )}
                     >
                       <h2 className={clsx("mb-6 text-2xl text-gray-900")}>
@@ -118,7 +128,7 @@ export default function Home() {
                         # {image.tagName}
                       </p>
                     </span>
-                    <span className={clsx("max-w-[480px]")}>
+                    <span className={clsx("max-w-[320px] sm:max-w-[480px]")}>
                       <Image
                         src={image.src}
                         width={image.width ?? 480}
@@ -134,19 +144,19 @@ export default function Home() {
           </div>
           <button
             className={clsx(
-              "absolute left-5 top-[calc(50%-40px)] w-20 rounded-full bg-gray-600",
+              "-translate-y-1/12 absolute left-2 top-1/2 w-16 rounded-full bg-gray-600 drop-shadow-md sm:left-5 sm:w-20",
             )}
             onClick={handleClickPrev}
           >
-            <ChevronLeftIcon className={clsx("p-5 text-white")} />
+            <ChevronLeftIcon className={clsx("p-3 text-white sm:p-5")} />
           </button>
           <button
             className={clsx(
-              "absolute right-5 top-[calc(50%-40px)] w-20 rounded-full bg-gray-600",
+              "-translate-y-1/12 absolute right-2 top-1/2 w-16 rounded-full bg-gray-600 drop-shadow-md sm:right-5 sm:w-20",
             )}
             onClick={handleClickNext}
           >
-            <ChevronRightIcon className={clsx("p-5 text-white")} />
+            <ChevronRightIcon className={clsx("p-3 text-white sm:p-5")} />
           </button>
         </div>
         <div className={clsx("flex justify-center gap-3 pb-32 pt-10")}>
